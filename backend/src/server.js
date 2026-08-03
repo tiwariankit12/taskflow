@@ -1,31 +1,29 @@
 import dotenv from "dotenv";
-import app from "./app.js";
+import express from "express";
+import cors from "cors";
 import connectDB from "./config/db.js";
+import app from "./app.js";
 
+// Load environment variables
 dotenv.config();
 
+// Connect to MongoDB Database
 connectDB();
 
-const PORT = process.env.PORT || 5000;
-
-const express = require("express");
-const cors = require("cors");
-const app = express();
-
-// 1. CORS Configuration (Sabhi Request allow karne ke liye)
+// CORS Middleware (Isse Vercel CORS Error Permanent Fix hoga)
 app.use(
   cors({
-    origin: "*", // Ya fir specific: "https://taskflow-frontend-ankit0503.vercel.app"
+    origin: "*", 
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-// 2. Express Body Parser (JSON handling ke liye compulsory hai)
+// Express JSON Parser
 app.use(express.json());
 
-// ... Aage aapke baki authentication aur task routes rahenge
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
