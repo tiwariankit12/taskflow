@@ -1,0 +1,66 @@
+/* ==========================================
+   APP LEVEL LAYOUT & CONTAINER STYLES
+   ========================================== */
+
+/* Page Outer Wrapper */
+.home-page, 
+.dashboard-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-main, #0a0f1d);
+  color: var(--text-primary, #f8fafc);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Container Wrapper */
+.app-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+}
+
+/* Search Bar Section */
+.search-bar-section {
+  width: 100%;
+  position: relative;
+}
+
+.search-bar-section input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.8rem;
+  border-radius: 12px;
+  background-color: var(--bg-input, rgba(27, 38, 59, 0.7));
+  border: 1px solid var(--border-color, rgba(51, 65, 85, 0.7));
+  color: var(--text-primary, #f8fafc);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-bar-section input:focus {
+  border-color: var(--accent-color, #6366f1);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.search-bar-section .input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary, #94a3b8);
+  font-size: 1.1rem;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 640px) {
+  .app-container {
+    padding: 1.25rem 1rem;
+    gap: 1.5rem;
+  }
+}
