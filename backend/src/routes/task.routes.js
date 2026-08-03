@@ -3,7 +3,7 @@ import express from "express";
 import {
   getTasks,
   createTask,
-  updateTask, // 👈 New import
+  updateTask,
   deleteTask,
   toggleTask,
 } from "../controllers/task.controller.js";
@@ -11,14 +11,15 @@ import {
 const router = express.Router();
 
 router.get("/", getTasks);
+
 router.post("/", createTask);
 
-// 🆕 Text edit / Title update ke liye PUT route
+// 📝 Title Edit ke liye (PUT /api/tasks/:id)
 router.put("/:id", updateTask);
 
 router.delete("/:id", deleteTask);
 
-// Toggle ke liye specific route path rakhein
-router.patch("/:id/toggle", toggleTask);
+// ✅ Checkbox Toggle ke liye (PATCH /api/tasks/:id)
+router.patch("/:id", toggleTask);
 
 export default router;

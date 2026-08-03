@@ -1,33 +1,32 @@
 import Task from "../models/task.model.js";
 
 export const getTasks = async (req, res) => {
-  const tasks = await Task.find().sort({
-    createdAt: -1,
-  });
-
-  res.json(tasks);
+  try {
+    const tasks = await Task.find().sort({ createdAt: -1 });
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const createTask = async (req, res) => {
-  const { title } = req.body;
-
-  const task = await Task.create({
-    title,
-  });
-
-  res.status(201).json(task);
+  try {
+    const { title } = req.body;
+    const task = await Task.create({ title });
+    res.status(201).json(task);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// 🆕 EDIT / UPDATE TASK CONTROLLER
+// 🆕 SMART UPDATE CONTROLLER (Handles both Title Edit & Toggle)
 export const updateTask = async (req, res) => {
   try {
-    const { title, completed } = req.body;
-
-    // { new: true } zaroori hai taaki updated document return ho
+    // req.body me jo bhi bhejoge (title, completed, ya dono), wahi update hoga
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
-      { title, completed },
-      { new: true }
+      { $set: req.body }, 
+      { new: true, runValidators: true }
     );
 
     if (!updatedTask) {
@@ -41,19 +40,26 @@ export const updateTask = async (req, res) => {
 };
 
 export const deleteTask = async (req, res) => {
-  await Task.findByIdAndDelete(req.params.id);
-
-  res.json({
-    message: "Task Deleted",
-  });
+  try {
+    await Task.findByIdAndDelete(req.params.id);
+    res.json({ message: "Task Deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const toggleTask = async (req, res) => {
-  const task = await Task.findById(req.params.id);
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
 
-  task.completed = !task.completed;
+    task.completed = !task.completed;
+    await task.save();
 
-  await task.save();
-
-  res.json(task);
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
