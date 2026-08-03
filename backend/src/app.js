@@ -6,18 +6,15 @@ import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
-// 1. Enable CORS for all origins & explicit HTTP methods
+// Enable CORS for all routes cleanly
 app.use(
   cors({
-    origin: true, // Dynamically allows the requesting origin (Vercel, Localhost, etc.)
+    origin: true,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-// 2. Explicitly handle Preflight OPTIONS requests
-app.options("*", cors());
 
 app.use(express.json());
 
